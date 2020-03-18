@@ -18,5 +18,6 @@ fn bench_parse_x509_c(b: &mut Bencher) {
     b.iter(|| {
         let res = bench_x509::decode_x509_c(IGCA_DER);
         assert!(res != ::std::ptr::null_mut());
+        bench_x509::free_x509_c(res);
     });
 }

@@ -3,8 +3,8 @@ use std::os::raw::c_void;
 use x509_parser::{parse_x509_der, X509Certificate};
 
 extern "C" {
-    // fn hello();
     fn DecodeDer(buffer: *const u8, size: u32, errcode: *mut u32) -> *mut c_void;
+    fn DerFree(cert: *mut c_void);
 }
 
 pub fn decode_x509_c(input: &[u8]) -> *mut c_void {
@@ -17,6 +17,12 @@ pub fn decode_x509_c(input: &[u8]) -> *mut c_void {
         std::ptr::null_mut()
     } else {
         ret
+    }
+}
+
+pub fn free_x509_c(cert: *mut c_void) {
+    unsafe {
+        DerFree(cert);
     }
 }
 
